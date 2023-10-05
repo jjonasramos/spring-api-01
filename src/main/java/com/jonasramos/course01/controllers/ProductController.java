@@ -3,6 +3,7 @@ package com.jonasramos.course01.controllers;
 import com.jonasramos.course01.domain.product.Product;
 import com.jonasramos.course01.domain.product.ProductRepository;
 import com.jonasramos.course01.domain.product.RequestProduct;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class ProductController {
     public ResponseEntity update(@PathVariable String id, @RequestBody @Valid RequestProduct data) {
         Optional<Product> optionalProduct = repository.findById(id);
         if (optionalProduct.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new EntityNotFoundException();
         }
 
         Product product = optionalProduct.get();
@@ -51,7 +52,7 @@ public class ProductController {
         Optional<Product> optionalProduct = repository.findById(id);
 
         if (optionalProduct.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new EntityNotFoundException();
         }
 
         Product product = optionalProduct.get();
